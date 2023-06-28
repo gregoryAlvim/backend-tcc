@@ -1,0 +1,111 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int         @id @default(autoincrement())
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  name      String
+  email     String      @unique
+  password  String
+  avatar    String?
+  Category  Category[]
+  Expense   Expense[]
+  Income    Income[]
+  Objective Objective[]
+  Planning  Planning[]
+  Wallet    Wallet?
+}
+
+model Wallet {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  value     Float
+  userId    Int      @unique
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+model Income {
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  value       Float
+  isReceived  Boolean
+  date        DateTime
+  Description String
+  userId      Int
+  categoryId  Int
+  category    Category @relation(fields: [categoryId], references: [id])
+  user        User     @relation(fields: [userId], references: [id])
+}
+
+model Expense {
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  value       Float
+  isPay       Boolean
+  date        DateTime
+  Description String
+  userId      Int
+  categoryId  Int
+  category    Category @relation(fields: [categoryId], references: [id])
+  user        User     @relation(fields: [userId], references: [id])
+}
+
+model Category {
+  id                 Int                  @id @default(autoincrement())
+  createdAt          DateTime             @default(now())
+  name               String
+  type               String
+  userId             Int
+  user               User                 @relation(fields: [userId], references: [id])
+  Expense            Expense[]
+  Income             Income[]
+  PlanningByCategory PlanningByCategory[]
+}
+
+model Objective {
+  id           Int      @id @default(autoincrement())
+  createdAt    DateTime @default(now())
+  date         DateTime
+  goal         Float
+  initialValue Float
+  userId       Int
+  user         User     @relation(fields: [userId], references: [id])
+  Parcel       Parcel[]
+}
+
+model Parcel {
+  id          Int       @id @default(autoincrement())
+  createdAt   DateTime  @default(now())
+  portion     Int
+  value       Float
+  month       String
+  objectiveId Int
+  objective   Objective @relation(fields: [objectiveId], references: [id])
+}
+
+model Planning {
+  id                 Int                  @id @default(autoincrement())
+  createdAt          DateTime             @default(now())
+  month              String
+  goal               Float
+  userId             Int
+  user               User                 @relation(fields: [userId], references: [id])
+  PlanningByCategory PlanningByCategory[]
+}
+
+model PlanningByCategory {
+  id         Int      @id @default(autoincrement())
+  createdAt  DateTime @default(now())
+  goal       Float
+  categoryId Int
+  category   Category @relation(fields: [categoryId], references: [id])
+  planningId Int
+  planning   Planning @relation(fields: [planningId], references: [id])
+}
