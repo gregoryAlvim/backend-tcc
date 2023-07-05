@@ -7,29 +7,40 @@ import {
   Param,
   Delete,
   Res,
+  UseGuards,
 } from '@nestjs/common';
 import { CreateUserBody } from '../dtos/user/create-user-body';
 import { UpdateUserBody } from '../dtos/user/update-user-body';
 import { CreateUser } from 'src/application/use-cases/user/create-user';
+import { FindUserById } from '@application/use-cases/user/find-user-by-id';
+import { UserViewModel } from '../view-models/user-view-model';
+import { Response } from 'express';
+import { JwtGuard } from '@application/use-cases/auth/guards/jwt-auth.guard';
 
-@Controller('user/')
+@Controller('users/')
 export class UserController {
-  constructor(private createUser: CreateUser) {}
+  constructor(
+    private createUser: CreateUser,
+    private findUserById: FindUserById,
+  ) {}
 
-  @Post('create')
-  async create(@Body() bodyRequest: CreateUserBody) {
+  @Post('create-user')
+  async create(
+    @Body() bodyRequest: CreateUserBody,
+    @Res()
+    response: Response,
+  ): Promise<any> {
     await this.createUser.execute({ ...bodyRequest });
+    response.json({ status: 201, message: 'Usuário criado com sucesso!' });
   }
 
-  // @Get()
-  // findAll() {
-  //   return 'getAll';
-  // }
+  @UseGuards(JwtGuard)
+  @Get('find-user-by/:id')
+  async findById(@Param('id') userId: string) {
+    const { user } = await this.findUserById.execute({ userId });
 
-  // @Get(':id')
-  // findById(@Param('id') id: string) {
-  //   return 'getById';
-  // }
+    return UserViewModel.toHTTP(user);
+  }
 
   // @Patch(':id')
   // update(@Param('id') id: string, @Body() updateUserBody: UpdateUserBody) {
