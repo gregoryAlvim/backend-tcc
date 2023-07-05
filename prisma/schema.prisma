@@ -28,7 +28,7 @@ model Wallet {
   createdAt DateTime @default(now())
   value     Float
   userId    String   @unique
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Income {
