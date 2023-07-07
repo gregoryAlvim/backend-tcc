@@ -34,7 +34,7 @@ export class User {
     this.props = {
       ...props,
       createdAt: props.createdAt ?? new Date(),
-      updatedAt: props.createdAt ?? new Date(),
+      updatedAt: props.updatedAt ?? new Date(),
     };
   }
 

@@ -9,7 +9,6 @@ export class PrismaUserMapper {
       email: user.email,
       password: user.password,
       avatar: user.avatar,
-      wallet: user.wallet,
       updatedAt: user.updatedAt,
       createdAt: user.createdAt,
     };

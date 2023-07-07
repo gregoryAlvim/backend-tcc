@@ -3,7 +3,7 @@ import { UserRepository } from '@application/repositories/user-repository';
 import { HttpException, Injectable } from '@nestjs/common';
 
 interface FindUserByIdRequest {
-  userId: string;
+  user_uuid: string;
 }
 
 interface FindUserByIdResponse {
@@ -15,9 +15,9 @@ export class FindUserById {
   constructor(private userRepository: UserRepository) {}
 
   async execute({
-    userId,
+    user_uuid,
   }: FindUserByIdRequest): Promise<FindUserByIdResponse> {
-    const user = await this.userRepository.findById(userId);
+    const user = await this.userRepository.findById(user_uuid);
 
     if (!user) {
       throw new HttpException('O usuário não foi encontrado!', 404);

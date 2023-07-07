@@ -8,6 +8,7 @@ import { LocalStrategy } from '@application/use-cases/auth/strategies/local.stra
 import { JwtStrategy } from '@application/use-cases/auth/strategies/jwt.strategy';
 import { AuthRefreshToken } from '@application/use-cases/auth/auth-refresh-token';
 import { RefreshJwtStrategy } from '@application/use-cases/auth/strategies/refreshToken.strategy';
+import { PassportModule } from '@nestjs/passport';
 
 @Module({
   providers: [
@@ -21,6 +22,7 @@ import { RefreshJwtStrategy } from '@application/use-cases/auth/strategies/refre
   controllers: [UserAuthController],
   imports: [
     DatabaseModule,
+    PassportModule,
     JwtModule.register({
       secret: process.env.SECRET_KEY,
       signOptions: { expiresIn: '60s' },
