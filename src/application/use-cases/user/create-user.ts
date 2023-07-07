@@ -4,6 +4,8 @@ import { User } from 'src/application/entities/user.entity';
 import { UserRepository } from 'src/application/repositories/user-repository';
 import * as bcrypt from 'bcrypt';
 import { CheckIfUserExistsByEmail } from './check-if-user-exists-by-email';
+import { DefaultCategories } from '@helpers/DefaultCategories';
+import { Category } from '@application/entities/category.entity';
 
 interface CreateUserRequest {
   name: string;
@@ -23,9 +25,12 @@ export class CreateUser {
     private checkIfUserExistsByEmail: CheckIfUserExistsByEmail,
   ) {}
 
-  async execute(request: CreateUserRequest): Promise<CreateUserResponse> {
-    const { name, email, password, avatar } = request;
-
+  async execute({
+    name,
+    email,
+    password,
+    avatar,
+  }: CreateUserRequest): Promise<CreateUserResponse> {
     const { userExists } = await this.checkIfUserExistsByEmail.execute({
       email,
     });
@@ -37,10 +42,19 @@ export class CreateUser {
     const saltOrRounds = 8;
     const cryptPassword = await bcrypt.hash(password, saltOrRounds);
 
-    const wallet = new Wallet({ value: 0 });
     const user = new User({ name, email, password: cryptPassword, avatar });
 
-    await this.userRepository.create(user, wallet);
+    const wallet = new Wallet({ value: 0 });
+
+    const categories = DefaultCategories.map((category) => {
+      return new Category({
+        name: category.name,
+        type: category.type,
+        createdAt: category.createdAt,
+      });
+    });
+
+    await this.userRepository.create(user, wallet, categories);
 
     return {
       user,
