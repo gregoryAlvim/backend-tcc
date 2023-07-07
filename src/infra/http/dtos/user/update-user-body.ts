@@ -1,4 +1,9 @@
-import { PartialType } from '@nestjs/mapped-types';
-import { CreateUserBody } from './create-user-body';
+export class UpdateUserBody {
+  name: string;
 
-export class UpdateUserBody extends PartialType(CreateUserBody) {}
+  email: string;
+
+  password: string;
+
+  avatar?: string;
+}
