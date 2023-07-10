@@ -22,7 +22,7 @@ export class UpdateUserById {
     name,
     password,
     avatar,
-  }: UpdateUserByIdRequest): Promise<any> {
+  }: UpdateUserByIdRequest): Promise<void> {
     const currentUser = await this.userRepository.findById(user_uuid);
 
     if (!currentUser) {
@@ -49,7 +49,7 @@ export class UpdateUserById {
         updatedAt: newUpdatedDate,
         createdAt: currentUser.createdAt,
       },
-      user_uuid,
+      currentUser.id,
     );
 
     await this.userRepository.update(updatedUser);

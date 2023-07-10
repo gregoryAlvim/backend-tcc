@@ -1,6 +1,5 @@
 import { WalletRepository } from '@application/repositories/wallet-repository';
-import { Injectable } from '@nestjs/common';
-import { FindWalletByUserId } from './find-wallet-by-user-id';
+import { HttpException, Injectable } from '@nestjs/common';
 import { Wallet } from '@application/entities/wallet.entity';
 
 interface UpdateWalletByIdRequest {
@@ -10,15 +9,16 @@ interface UpdateWalletByIdRequest {
 
 @Injectable()
 export class UpdateWalletById {
-  constructor(
-    private walletRepository: WalletRepository,
-    private findWalletByUserId: FindWalletByUserId,
-  ) {}
+  constructor(private walletRepository: WalletRepository) {}
 
   async execute({ user_uuid, value }: UpdateWalletByIdRequest): Promise<void> {
-    const { wallet: currentWallet } = await this.findWalletByUserId.execute({
+    const currentWallet = await this.walletRepository.findWalletByUserId(
       user_uuid,
-    });
+    );
+
+    if (!currentWallet) {
+      throw new HttpException('A carteira do usuário não foi encontrada!', 404);
+    }
 
     const updatedWallet = new Wallet(
       {

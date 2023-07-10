@@ -1,6 +1,6 @@
 import { User } from '@application/entities/user.entity';
 import { UserRepository } from '@application/repositories/user-repository';
-import { HttpException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 
 interface FindUserByEmailRequest {
   email: string;

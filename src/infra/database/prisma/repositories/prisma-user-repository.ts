@@ -83,7 +83,4 @@ export class PrismaUserRepository implements UserRepository {
       data: userRaw,
     });
   }
-
-  // async update(user: User): Promise<void> {}
-  // async remove(userId: string): Promise<void> {}
 }
