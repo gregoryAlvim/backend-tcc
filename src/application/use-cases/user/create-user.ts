@@ -20,10 +20,7 @@ interface CreateUserResponse {
 
 @Injectable()
 export class CreateUser {
-  constructor(
-    private userRepository: UserRepository,
-    private checkIfUserExistsByEmail: CheckIfUserExistsByEmail,
-  ) {}
+  constructor(private userRepository: UserRepository) {}
 
   async execute({
     name,
@@ -31,9 +28,9 @@ export class CreateUser {
     password,
     avatar,
   }: CreateUserRequest): Promise<CreateUserResponse> {
-    const { userExists } = await this.checkIfUserExistsByEmail.execute({
+    const userExists = await this.userRepository.checkIfUserExistsByEmail(
       email,
-    });
+    );
 
     if (userExists) {
       throw new HttpException('Este email já está sendo utilizado!', 409);
