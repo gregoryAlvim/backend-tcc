@@ -15,7 +15,9 @@ import { JwtGuard } from '@application/use-cases/auth/guards/jwt-auth.guard';
 import { CreateCategory } from '@application/use-cases/category/create-category';
 import { UpdateCategoryById } from '@application/use-cases/category/update-category-by-id';
 import { GetAllCategories } from '@application/use-cases/category/get-all-categories';
+import { CategoryViewModel } from '../view-models/category-view-model';
 
+@UseGuards(JwtGuard)
 @Controller('category')
 export class CategoryController {
   constructor(
@@ -24,7 +26,6 @@ export class CategoryController {
     private getAllCategories: GetAllCategories,
   ) {}
 
-  @UseGuards(JwtGuard)
   @Post('create-category')
   async create(
     @Body() bodyRequest: CreateCategoryBody,
@@ -39,7 +40,6 @@ export class CategoryController {
     response.json({ status: 201, message: 'Categoria criada com sucesso!' });
   }
 
-  @UseGuards(JwtGuard)
   @Post('update-category/:id')
   async update(
     @Param() param,
@@ -57,7 +57,6 @@ export class CategoryController {
     });
   }
 
-  @UseGuards(JwtGuard)
   @Get('get-all-categories')
   async returnAllCategories(@Request() req) {
     const { user_uuid } = req.user;
@@ -65,10 +64,22 @@ export class CategoryController {
     const { allCategories, incomeCategories, expenseCategories } =
       await this.getAllCategories.execute({ user_uuid });
 
+    const allCategoriesHTTP = allCategories.map((category) =>
+      CategoryViewModel.toHTTP(category),
+    );
+
+    const incomeCategoriesHTTP = incomeCategories.map((category) =>
+      CategoryViewModel.toHTTP(category),
+    );
+
+    const expenseCategoriesHTTP = expenseCategories.map((category) =>
+      CategoryViewModel.toHTTP(category),
+    );
+
     return {
-      allCategories,
-      incomeCategories,
-      expenseCategories,
+      allCategoriesHTTP,
+      incomeCategoriesHTTP,
+      expenseCategoriesHTTP,
     };
   }
 }
