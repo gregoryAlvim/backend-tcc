@@ -37,7 +37,7 @@ model Income {
   value       Float
   isReceived  Boolean
   date        DateTime
-  Description String
+  description String
   userId      String
   categoryId  String
   category    Category @relation(fields: [categoryId], references: [id])
@@ -50,7 +50,7 @@ model Expense {
   value       Float
   isPay       Boolean
   date        DateTime
-  Description String
+  description String
   userId      String
   categoryId  String
   category    Category @relation(fields: [categoryId], references: [id])
