@@ -18,7 +18,7 @@ import { GetAllCategories } from '@application/use-cases/category/get-all-catego
 import { CategoryViewModel } from '../view-models/category-view-model';
 
 @UseGuards(JwtGuard)
-@Controller('category')
+@Controller('categories')
 export class CategoryController {
   constructor(
     private createCategory: CreateCategory,
@@ -57,7 +57,7 @@ export class CategoryController {
     });
   }
 
-  @Get('get-all-categories')
+  @Get('get-all')
   async returnAllCategories(@Request() req) {
     const { user_uuid } = req.user;
 

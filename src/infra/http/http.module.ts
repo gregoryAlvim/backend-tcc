@@ -1,12 +1,19 @@
 import { Module } from '@nestjs/common';
-import { UserModule } from './modules/user.module';
 import { PrismaClient } from '@prisma/client';
-import { UserAuthModule } from './modules/auth.module';
+import { UserModule } from './modules/user.module';
 import { WalletModule } from './modules/wallet.module';
+import { UserAuthModule } from './modules/auth.module';
+import { IncomeModule } from './modules/income.module';
 import { CategoryModule } from './modules/category.module';
 
 @Module({
-  imports: [UserAuthModule, UserModule, WalletModule, CategoryModule],
+  imports: [
+    UserAuthModule,
+    UserModule,
+    WalletModule,
+    CategoryModule,
+    IncomeModule,
+  ],
   providers: [PrismaClient],
 })
 export class httpModule {}

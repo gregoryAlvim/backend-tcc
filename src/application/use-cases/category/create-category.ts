@@ -12,7 +12,11 @@ interface CreateCategoryRequest {
 export class CreateCategory {
   constructor(private categoryRepository: CategoryRepository) {}
 
-  async execute({ user_uuid, name, type }: CreateCategoryRequest) {
+  async execute({
+    user_uuid,
+    name,
+    type,
+  }: CreateCategoryRequest): Promise<void> {
     const category = new Category({ name, type });
 
     await this.categoryRepository.create(user_uuid, category);

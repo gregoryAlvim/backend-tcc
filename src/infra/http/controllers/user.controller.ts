@@ -4,7 +4,6 @@ import {
   Post,
   Body,
   Patch,
-  Delete,
   UseGuards,
   Request,
   Res,
@@ -18,7 +17,7 @@ import { JwtGuard } from '@application/use-cases/auth/guards/jwt-auth.guard';
 import { UpdateUserById } from '@application/use-cases/user/update-user-by-id';
 import { Response } from 'express';
 
-@Controller('users/')
+@Controller('users')
 export class UserController {
   constructor(
     private createUser: CreateUser,
@@ -63,9 +62,4 @@ export class UserController {
 
     response.json({ status: 200, message: 'Usuário atualizado com sucesso!' });
   }
-
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return 'delete';
-  // }
 }
