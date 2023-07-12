@@ -1,11 +1,4 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Post,
-  Request,
-  UseGuards,
-} from '@nestjs/common';
+import { Controller, Post, Request, UseGuards } from '@nestjs/common';
 import { UserAuthLogin } from '@application/use-cases/auth/auth-login';
 import { LocalAuthGuard } from '@application/use-cases/auth/guards/local-auth.guard';
 import { AuthRefreshToken } from '@application/use-cases/auth/auth-refresh-token';

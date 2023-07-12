@@ -3,7 +3,6 @@ import { HttpException, Injectable } from '@nestjs/common';
 import { User } from 'src/application/entities/user.entity';
 import { UserRepository } from 'src/application/repositories/user-repository';
 import * as bcrypt from 'bcrypt';
-import { CheckIfUserExistsByEmail } from './check-if-user-exists-by-email';
 import { DefaultCategories } from '@helpers/DefaultCategories';
 import { Category } from '@application/entities/category.entity';
 
