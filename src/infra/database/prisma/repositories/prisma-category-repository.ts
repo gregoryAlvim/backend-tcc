@@ -42,7 +42,6 @@ export class PrismaCategoryRepository implements CategoryRepository {
   }
 
   async getAllCategories(user_uuid: string): Promise<Category[]> {
-    console.log(user_uuid);
     const categories = await this.prisma.category.findMany({
       where: {
         userId: user_uuid,
