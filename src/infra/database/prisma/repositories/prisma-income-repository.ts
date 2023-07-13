@@ -1,8 +1,8 @@
-import { Income } from '@application/entities/income.entity';
-import { IncomeRepository } from '@application/repositories/ income-repository';
-import { PrismaService } from '@infra/database/prisma.service';
 import { Injectable } from '@nestjs/common';
+import { Income } from '@application/entities/income.entity';
+import { PrismaService } from '@infra/database/prisma.service';
 import { PrismaIncomeMapper } from '../mappers/prisma-income-mapper';
+import { IncomeRepository } from '@application/repositories/ income-repository';
 
 @Injectable()
 export class PrismaIncomeRepository implements IncomeRepository {
@@ -45,5 +45,28 @@ export class PrismaIncomeRepository implements IncomeRepository {
     });
 
     return PrismaIncomeMapper.toDomain(income, category);
+  }
+
+  async getIncomesOfMonth(
+    user_uuid: string,
+    initialDate: Date,
+    finalDate: Date,
+  ): Promise<Income[]> {
+    const incomes = await this.prisma.income.findMany({
+      where: {
+        userId: user_uuid,
+        date: {
+          lte: finalDate,
+          gte: initialDate,
+        },
+      },
+      include: { category: true },
+    });
+
+    const adjustedIncomes = incomes.map((income) =>
+      PrismaIncomeMapper.toDomain(income, income.category),
+    );
+
+    return adjustedIncomes;
   }
 }

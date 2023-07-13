@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   Param,
+  Patch,
   Post,
   Request,
   Res,
@@ -40,7 +41,7 @@ export class CategoryController {
     response.json({ status: 201, message: 'Categoria criada com sucesso!' });
   }
 
-  @Post('update-category/:id')
+  @Patch('update-category-by/:id')
   async update(
     @Param() param,
     @Body() bodyRequest: UpdateCategoryBody,
