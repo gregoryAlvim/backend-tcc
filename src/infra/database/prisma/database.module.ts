@@ -8,6 +8,8 @@ import { CategoryRepository } from '@application/repositories/category-repositor
 import { PrismaCategoryRepository } from './repositories/prisma-category-repository';
 import { IncomeRepository } from '@application/repositories/ income-repository';
 import { PrismaIncomeRepository } from './repositories/prisma-income-repository';
+import { ExpenseRepository } from '@application/repositories/expense-repository';
+import { PrismaExpenseRepository } from './repositories/prisma-expense-repository';
 
 @Module({
   providers: [
@@ -28,12 +30,17 @@ import { PrismaIncomeRepository } from './repositories/prisma-income-repository'
       provide: IncomeRepository,
       useClass: PrismaIncomeRepository,
     },
+    {
+      provide: ExpenseRepository,
+      useClass: PrismaExpenseRepository,
+    },
   ],
   exports: [
     UserRepository,
     WalletRepository,
     CategoryRepository,
     IncomeRepository,
+    ExpenseRepository,
   ],
 })
 export class DatabaseModule {}
