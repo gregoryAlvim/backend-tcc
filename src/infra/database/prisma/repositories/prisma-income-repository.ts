@@ -32,19 +32,14 @@ export class PrismaIncomeRepository implements IncomeRepository {
       where: {
         id: income_uuid,
       },
+      include: { category: true },
     });
 
     if (!income) {
       return null;
     }
 
-    const category = await this.prisma.category.findUnique({
-      where: {
-        id: income.categoryId,
-      },
-    });
-
-    return PrismaIncomeMapper.toDomain(income, category);
+    return PrismaIncomeMapper.toDomain(income, income.category);
   }
 
   async getIncomesOfMonth(
