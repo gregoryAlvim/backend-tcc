@@ -6,6 +6,7 @@ import { UserAuthModule } from './modules/auth.module';
 import { IncomeModule } from './modules/income.module';
 import { CategoryModule } from './modules/category.module';
 import { ExpenseModule } from './modules/expense.module';
+import { PlanningModule } from './modules/planning.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { ExpenseModule } from './modules/expense.module';
     CategoryModule,
     IncomeModule,
     ExpenseModule,
+    PlanningModule,
   ],
   providers: [PrismaClient],
 })
