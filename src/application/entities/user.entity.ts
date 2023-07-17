@@ -2,9 +2,9 @@ import { Replace } from 'src/helpers/Replace';
 import { CategoryProps } from './category.entity';
 import { ExpenseProps } from './expense.entity';
 import { IncomeProps } from './income.entity';
-import { ObjectiveProps } from './objectives.entity';
-import { PlanningProps } from './planning.entity';
-import { WalletProps } from './wallet.entity';
+import { Objective } from './objective.entity';
+import { Planning } from './planning.entity';
+import { Wallet } from './wallet.entity';
 import { randomUUID } from 'crypto';
 
 export interface UserProps {
@@ -14,12 +14,12 @@ export interface UserProps {
   email: string;
   password: string;
   avatar?: string;
-  wallet?: WalletProps;
+  wallet?: Wallet;
   categories?: CategoryProps[];
   expenses?: ExpenseProps[];
   incomes?: IncomeProps[];
-  objetives?: ObjectiveProps[];
-  plannings?: PlanningProps[];
+  objetives?: Objective[];
+  plannings?: Planning[];
 }
 
 export class User {
@@ -74,11 +74,11 @@ export class User {
     return this.props.avatar;
   }
 
-  public set wallet(wallet: WalletProps) {
+  public set wallet(wallet: Wallet) {
     this.props.wallet = wallet;
   }
 
-  public get wallet(): WalletProps {
+  public get wallet(): Wallet {
     return this.props.wallet;
   }
 
@@ -106,19 +106,19 @@ export class User {
     return this.props.incomes;
   }
 
-  public set objetives(objetive: ObjectiveProps) {
+  public set objetives(objetive: Objective) {
     this.props.objetives.push(objetive);
   }
 
-  public get objetives(): ObjectiveProps[] {
+  public get objetives(): Objective[] {
     return this.props.objetives;
   }
 
-  public set plannings(planning: PlanningProps) {
+  public set plannings(planning: Planning) {
     this.props.plannings.push(planning);
   }
 
-  public get plannings(): PlanningProps[] {
+  public get plannings(): Planning[] {
     return this.props.plannings;
   }
 
