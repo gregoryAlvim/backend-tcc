@@ -96,7 +96,7 @@ model Planning {
   month              String
   goal               Float
   userId             String
-  user               User                 @relation(fields: [userId], references: [id])
+  user               User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
   PlanningByCategory PlanningByCategory[]
 }
 
@@ -107,5 +107,5 @@ model PlanningByCategory {
   categoryId String
   category   Category @relation(fields: [categoryId], references: [id])
   planningId String
-  planning   Planning @relation(fields: [planningId], references: [id])
+  planning   Planning @relation(fields: [planningId], references: [id], onDelete: Cascade)
 }
