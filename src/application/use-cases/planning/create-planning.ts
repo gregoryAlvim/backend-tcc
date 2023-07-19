@@ -34,7 +34,7 @@ export class CreatePlanning {
 
     const planning = new Planning({ month, goal });
 
-    planningsByCategory.forEach(async (planningByCategory) => {
+    planningsByCategory.forEach(async (planningByCategory, index) => {
       const category = await this.categoryRepository.findCategoryById(
         planningByCategory.category_uuid,
       );
@@ -49,11 +49,10 @@ export class CreatePlanning {
       });
 
       planning.planningsByCategory = currentPlanningByCategory;
-      console.log(planning.planningsByCategory);
+
+      if (planningsByCategory.length === index + 1) {
+        await this.planningRepository.create(user_uuid, planning);
+      }
     });
-
-    console.log(planning.planningsByCategory);
-
-    await this.planningRepository.create(user_uuid, planning);
   }
 }

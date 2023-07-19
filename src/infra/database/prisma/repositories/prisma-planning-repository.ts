@@ -11,12 +11,12 @@ export class PrismaPlanningRepository implements PlanningRepository {
 
   async create(user_uuid: string, planning: Planning): Promise<void> {
     const rawPlanning = PrismaPlanningMapper.toPrisma(planning);
-    console.log(planning.planningsByCategory);
+
     const rawPlanningsByCategory = planning.planningsByCategory.map(
       (planningByCategory) =>
         PrismaPlanningByCategoryMapper.toPrisma(planningByCategory),
     );
-    console.log(rawPlanningsByCategory);
+
     await this.prisma.planning.create({
       data: {
         ...rawPlanning,
@@ -26,6 +26,44 @@ export class PrismaPlanningRepository implements PlanningRepository {
             data: rawPlanningsByCategory,
           },
         },
+      },
+    });
+  }
+
+  async findPlanningById(planning_uuid: string): Promise<Planning | null> {
+    const planning = await this.prisma.planning.findUnique({
+      where: {
+        id: planning_uuid,
+      },
+      include: {
+        PlanningByCategory: {
+          include: {
+            category: true,
+          },
+        },
+      },
+    });
+
+    if (!planning) {
+      return null;
+    }
+
+    const planningsByCategory = planning.PlanningByCategory.map(
+      (planningByCategory) => {
+        return PrismaPlanningByCategoryMapper.toDomain(
+          planningByCategory,
+          planningByCategory.category,
+        );
+      },
+    );
+
+    return PrismaPlanningMapper.toDomain(planning, planningsByCategory);
+  }
+
+  async delete(planning_uuid: string): Promise<void> {
+    await this.prisma.planning.delete({
+      where: {
+        id: planning_uuid,
       },
     });
   }
