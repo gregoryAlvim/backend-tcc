@@ -64,4 +64,12 @@ export class PrismaExpenseRepository implements ExpenseRepository {
 
     return adjustedExpenses;
   }
+
+  async deleteExpenseById(expense_uuid: string): Promise<void> {
+    await this.prisma.expense.delete({
+      where: {
+        id: expense_uuid,
+      },
+    });
+  }
 }

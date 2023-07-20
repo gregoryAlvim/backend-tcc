@@ -9,6 +9,7 @@ import {
   Request,
   UseGuards,
   Controller,
+  Delete,
 } from '@nestjs/common';
 import { Response } from 'express';
 import { CreateExpenseBody } from '../dtos/expense/create-expense-body';
@@ -19,6 +20,7 @@ import { UpdateExpenseById } from '@application/use-cases/expense/update-expense
 import { GetExpensesOfMonth } from '@application/use-cases/expense/get-expenses-of-month';
 import { UpdateExpenseBody } from '../dtos/expense/update-expense-body';
 import { ExpenseViewModel } from '../view-models/expense-view-model';
+import { DeleteExpenseById } from '@application/use-cases/expense/delete-expense-by-id';
 
 @UseGuards(JwtGuard)
 @Controller('expenses')
@@ -28,6 +30,7 @@ export class ExpenseController {
     private findExpenseById: FindExpenseById,
     private updateExpenseById: UpdateExpenseById,
     private getExpensesOfMonth: GetExpensesOfMonth,
+    private deleteExpenseById: DeleteExpenseById,
   ) {}
 
   @Post('create-expense')
@@ -89,5 +92,21 @@ export class ExpenseController {
     );
 
     return expensesOfMonthHTTP;
+  }
+
+  @Delete('delete-expense-by/:id')
+  async delete(
+    @Param() param,
+    @Res()
+    response: Response,
+  ) {
+    const expense_uuid = param.id;
+
+    await this.deleteExpenseById.execute({ expense_uuid });
+
+    response.json({
+      status: 204,
+      message: 'Despesa deletada com sucesso!',
+    });
   }
 }
