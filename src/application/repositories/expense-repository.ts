@@ -9,4 +9,5 @@ export abstract class ExpenseRepository {
     initialDate: Date,
     finalDate: Date,
   ): Promise<Expense[]>;
+  abstract deleteExpenseById(expense_uuid: string): Promise<void>;
 }
