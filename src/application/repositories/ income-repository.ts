@@ -9,4 +9,5 @@ export abstract class IncomeRepository {
     initialDate: Date,
     finalDate: Date,
   ): Promise<Income[]>;
+  abstract deleteIncomeById(income_uuid: string): Promise<void>;
 }
