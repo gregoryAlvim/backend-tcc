@@ -8,3 +8,5 @@ export interface ObjectiveProps {
   initialValue: number;
   parcels: ParcelProps[];
 }
+
+export class Objective {}

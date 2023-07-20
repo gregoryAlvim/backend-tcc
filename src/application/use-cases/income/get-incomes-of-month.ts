@@ -38,7 +38,7 @@ export class GetIncomesOfMonth {
 
     if (incomesOfMonth.length === 0) {
       throw new HttpException(
-        'Nenhuma receita foi encontrada no mês informado!',
+        'Nenhuma receita foi encontrada no mês e ano informado!',
         404,
       );
     }
