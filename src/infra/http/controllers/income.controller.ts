@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Patch,
@@ -19,6 +20,7 @@ import { JwtGuard } from '@application/use-cases/auth/guards/jwt-auth.guard';
 import { FindIncomeById } from '@application/use-cases/income/find-income-by-id';
 import { UpdateIncomeById } from '@application/use-cases/income/update-income-by-id';
 import { GetIncomesOfMonth } from '@application/use-cases/income/get-incomes-of-month';
+import { DeleteIncomeById } from '@application/use-cases/income/delete-income-by-id';
 
 @UseGuards(JwtGuard)
 @Controller('incomes')
@@ -28,6 +30,7 @@ export class IncomeController {
     private findIncomeById: FindIncomeById,
     private updateIncomeById: UpdateIncomeById,
     private getIncomesOfMonth: GetIncomesOfMonth,
+    private deleteIncomeById: DeleteIncomeById,
   ) {}
 
   @Post('create-income')
@@ -89,5 +92,21 @@ export class IncomeController {
     );
 
     return incomesOfMonthHTTP;
+  }
+
+  @Delete('delete-income-by/:id')
+  async delete(
+    @Param() param,
+    @Res()
+    response: Response,
+  ) {
+    const income_uuid = param.id;
+
+    await this.deleteIncomeById.execute({ income_uuid });
+
+    response.json({
+      status: 204,
+      message: 'Receita deletada com sucesso!',
+    });
   }
 }
