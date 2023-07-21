@@ -3,21 +3,18 @@ import {
   Get,
   Body,
   Post,
-  Delete,
-  Query,
-  Patch,
   Param,
+  Delete,
   Request,
   UseGuards,
   Controller,
 } from '@nestjs/common';
-import { Response, response } from 'express';
+import { Response } from 'express';
 import { PlanningViewModel } from '../view-models/planning-view-model';
 import { CreatePlanningBody } from '../dtos/planning/create-planning-body';
 import { JwtGuard } from '@application/use-cases/auth/guards/jwt-auth.guard';
 import { CreatePlanning } from '@application/use-cases/planning/create-planning';
 import { FindPlanningById } from '@application/use-cases/planning/find-a-planning-by-id';
-import { PlanningByCategoryViewModel } from '../view-models/planning-by-category-view-model';
 import { DeletePlanningById } from '@application/use-cases/planning/delete-a-planning-by-id';
 
 @UseGuards(JwtGuard)
