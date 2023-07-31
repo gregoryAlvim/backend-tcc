@@ -6,6 +6,7 @@ export interface ObjectiveProps {
   createdAt: Date;
   date: Date;
   goal: number;
+  description: string;
   initialValue: number;
   parcels: Parcel[];
 }
@@ -44,6 +45,14 @@ export class Objective {
 
   public get goal(): number {
     return this.props.goal;
+  }
+
+  public set description(description: string) {
+    this.props.description = description;
+  }
+
+  public get description(): string {
+    return this.props.description;
   }
 
   public set initialValue(initialValue: number) {
