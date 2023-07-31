@@ -73,6 +73,7 @@ model Objective {
   id           String   @id
   createdAt    DateTime @default(now())
   date         DateTime
+  description  String
   goal         Float
   initialValue Float
   userId       String
@@ -87,7 +88,7 @@ model Parcel {
   value       Float
   month       String
   objectiveId String
-  objective   Objective @relation(fields: [objectiveId], references: [id])
+  objective   Objective @relation(fields: [objectiveId], references: [id], onDelete: Cascade)
 }
 
 model Planning {

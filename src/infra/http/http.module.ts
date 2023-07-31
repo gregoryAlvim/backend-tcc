@@ -8,6 +8,7 @@ import { CategoryModule } from './modules/category.module';
 import { ExpenseModule } from './modules/expense.module';
 import { PlanningModule } from './modules/planning.module';
 import { PlanningByCategoryModule } from './modules/planningByCategory.module';
+import { ObjectiveModule } from './modules/objective.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { PlanningByCategoryModule } from './modules/planningByCategory.module';
     ExpenseModule,
     PlanningModule,
     PlanningByCategoryModule,
+    ObjectiveModule,
   ],
   providers: [PrismaClient],
 })
