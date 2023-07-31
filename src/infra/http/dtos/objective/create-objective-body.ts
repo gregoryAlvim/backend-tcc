@@ -12,6 +12,11 @@ export class CreateObjectiveBody {
   goal: number;
 
   @IsNotEmpty({
+    message: 'The description should not be empty.',
+  })
+  description: string;
+
+  @IsNotEmpty({
     message: 'The initialValue should not be empty.',
   })
   initialValue: number;
