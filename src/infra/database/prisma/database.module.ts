@@ -14,6 +14,8 @@ import { PlanningRepository } from '@application/repositories/planning-repositor
 import { PrismaPlanningRepository } from './repositories/prisma-planning-repository';
 import { PlanningByCategoryRepository } from '@application/repositories/planning-by-category-repository';
 import { PrismaPlanningByCategoryRepository } from './repositories/prisma-planning-by-category-repository';
+import { ObjectiveRepository } from '@application/repositories/objective-repository';
+import { PrismaObjectiveRepository } from './repositories/prisma-objective-repository';
 
 @Module({
   providers: [
@@ -46,6 +48,10 @@ import { PrismaPlanningByCategoryRepository } from './repositories/prisma-planni
       provide: PlanningByCategoryRepository,
       useClass: PrismaPlanningByCategoryRepository,
     },
+    {
+      provide: ObjectiveRepository,
+      useClass: PrismaObjectiveRepository,
+    },
   ],
   exports: [
     UserRepository,
@@ -55,6 +61,7 @@ import { PrismaPlanningByCategoryRepository } from './repositories/prisma-planni
     ExpenseRepository,
     PlanningRepository,
     PlanningByCategoryRepository,
+    ObjectiveRepository,
   ],
 })
 export class DatabaseModule {}
