@@ -28,4 +28,50 @@ export class PrismaObjectiveRepository implements ObjectiveRepository {
       },
     });
   }
+
+  async findObjectiveById(objective_uuid: string): Promise<Objective | null> {
+    const objective = await this.prisma.objective.findUnique({
+      where: {
+        id: objective_uuid,
+      },
+      include: {
+        Parcel: true,
+      },
+    });
+
+    const parcels = objective.Parcel.map((parcel) =>
+      PrismaParcelMapper.toDomain(parcel),
+    );
+
+    return PrismaObjectiveMapper.toDomain(objective, parcels);
+  }
+
+  async getAllObjectives(user_uuid: string): Promise<Objective[]> {
+    const objectives = await this.prisma.objective.findMany({
+      where: {
+        userId: user_uuid,
+      },
+      include: {
+        Parcel: true,
+      },
+    });
+
+    const adjustedObjectives = objectives.map((objective) => {
+      const adjustedParcels = objective.Parcel.map((parcel) =>
+        PrismaParcelMapper.toDomain(parcel),
+      );
+
+      return PrismaObjectiveMapper.toDomain(objective, adjustedParcels);
+    });
+
+    return adjustedObjectives;
+  }
+
+  async delete(objective_uuid: string): Promise<void> {
+    await this.prisma.objective.delete({
+      where: {
+        id: objective_uuid,
+      },
+    });
+  }
 }
