@@ -41,7 +41,7 @@ export class CreateObjective {
       const parcel = new Parcel({
         month: MonthList[month],
         portion: i,
-        value: suggestion.valueOfParcels,
+        value: Number(suggestion.valueOfParcels.toFixed(2)),
       });
 
       parcels.push(parcel);
