@@ -1,4 +1,5 @@
 import { User } from '@application/entities/user.entity';
+import { UserViewModel } from '@infra/http/view-models/user-view-model';
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
@@ -15,8 +16,8 @@ export class UserAuthLogin {
     };
 
     return {
-      ...user,
-      accessToken: this.jwtService.sign(payload),
+      user: UserViewModel.toHTTP(user),
+      accessToken: this.jwtService.sign(payload, { expiresIn: '1d' }),
       refreshToken: this.jwtService.sign(payload, { expiresIn: '7d' }),
     };
   }
