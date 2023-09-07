@@ -67,4 +67,32 @@ export class PrismaPlanningRepository implements PlanningRepository {
       },
     });
   }
+
+  async getAllPlannings(user_uuid: string): Promise<Planning[]> {
+    const plannings = await this.prisma.planning.findMany({
+      where: {
+        userId: user_uuid,
+      },
+      include: {
+        PlanningByCategory: {
+          include: {
+            category: true,
+          },
+        },
+      },
+    });
+
+    const adjustedPlannings = plannings.map((planning) => {
+      const adjustedPlanningByCategory = planning.PlanningByCategory.map(
+        (item) => PrismaPlanningByCategoryMapper.toDomain(item, item.category),
+      );
+
+      return PrismaPlanningMapper.toDomain(
+        planning,
+        adjustedPlanningByCategory,
+      );
+    });
+
+    return adjustedPlannings;
+  }
 }
