@@ -50,9 +50,14 @@ export class PrismaObjectiveRepository implements ObjectiveRepository {
     const objectives = await this.prisma.objective.findMany({
       where: {
         userId: user_uuid,
+        isActivated: true,
       },
       include: {
-        Parcel: true,
+        Parcel: {
+          orderBy: {
+            portion: 'asc',
+          },
+        },
       },
     });
 
