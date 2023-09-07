@@ -6,16 +6,21 @@ export interface ParcelProps {
   portion: number;
   value: number;
   month: string;
+  isPaid: boolean;
 }
 
 export class Parcel {
   private _id: string;
   private props: ParcelProps;
 
-  constructor(props: Replace<ParcelProps, { createdAt?: Date }>, id?: string) {
+  constructor(
+    props: Replace<ParcelProps, { createdAt?: Date; isPaid?: boolean }>,
+    id?: string,
+  ) {
     this._id = id ?? randomUUID();
     this.props = {
       ...props,
+      isPaid: props.isPaid ?? false,
       createdAt: props.createdAt ?? new Date(),
     };
   }
@@ -38,6 +43,14 @@ export class Parcel {
 
   public get value(): number {
     return this.props.value;
+  }
+
+  public set isPaid(isPaid: boolean) {
+    this.props.isPaid = isPaid;
+  }
+
+  public get isPaid(): boolean {
+    return this.props.isPaid;
   }
 
   public set month(month: string) {
