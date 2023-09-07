@@ -9,6 +9,7 @@ export interface ObjectiveProps {
   description: string;
   initialValue: number;
   parcels: Parcel[];
+  isActivated: boolean;
 }
 
 export class Objective {
@@ -16,13 +17,17 @@ export class Objective {
   private props: ObjectiveProps;
 
   constructor(
-    props: Replace<ObjectiveProps, { createdAt?: Date; parcels?: Parcel[] }>,
+    props: Replace<
+      ObjectiveProps,
+      { createdAt?: Date; parcels?: Parcel[]; isActivated?: boolean }
+    >,
     id?: string,
   ) {
     this._id = id ?? randomUUID();
     this.props = {
       ...props,
       parcels: props.parcels ?? [],
+      isActivated: props.isActivated ?? true,
       createdAt: props.createdAt ?? new Date(),
     };
   }
@@ -61,6 +66,14 @@ export class Objective {
 
   public get initialValue(): number {
     return this.props.initialValue;
+  }
+
+  public set isActivated(isActivated: boolean) {
+    this.props.isActivated = isActivated;
+  }
+
+  public get isActivated(): boolean {
+    return this.props.isActivated;
   }
 
   public set parcels(parcel: Parcel) {
