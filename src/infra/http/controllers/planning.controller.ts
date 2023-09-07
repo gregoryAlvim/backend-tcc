@@ -14,6 +14,7 @@ import { PlanningViewModel } from '../view-models/planning-view-model';
 import { CreatePlanningBody } from '../dtos/planning/create-planning-body';
 import { JwtGuard } from '@application/use-cases/auth/guards/jwt-auth.guard';
 import { CreatePlanning } from '@application/use-cases/planning/create-planning';
+import { GetAllPlannings } from '@application/use-cases/planning/get-all-plannings';
 import { FindPlanningById } from '@application/use-cases/planning/find-a-planning-by-id';
 import { DeletePlanningById } from '@application/use-cases/planning/delete-a-planning-by-id';
 
@@ -22,6 +23,7 @@ import { DeletePlanningById } from '@application/use-cases/planning/delete-a-pla
 export class PlanningController {
   constructor(
     private createPlanning: CreatePlanning,
+    private getAllPlannings: GetAllPlannings,
     private findPlanningById: FindPlanningById,
     private deletePlanningById: DeletePlanningById,
   ) {}
@@ -41,6 +43,21 @@ export class PlanningController {
       status: 201,
       message: 'Planejamento cadastrado com sucesso!',
     });
+  }
+
+  @Get('get-all')
+  async returnAllPlannings(@Request() req) {
+    const { user_uuid } = req.user;
+
+    const { plannings } = await this.getAllPlannings.execute({
+      user_uuid,
+    });
+
+    const planningsHttp = plannings.map((planning) =>
+      PlanningViewModel.toHTTP(planning),
+    );
+
+    return planningsHttp;
   }
 
   @Get('find-planning-by/:id')
