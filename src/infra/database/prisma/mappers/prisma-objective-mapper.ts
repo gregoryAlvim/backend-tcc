@@ -10,6 +10,7 @@ export class PrismaObjectiveMapper {
       date: objective.date,
       createdAt: objective.createdAt,
       description: objective.description,
+      isActivated: objective.isActivated,
       initialValue: objective.initialValue,
     };
   }
@@ -21,6 +22,7 @@ export class PrismaObjectiveMapper {
         goal: raw.goal,
         createdAt: raw.createdAt,
         description: raw.description,
+        isActivated: raw.isActivated,
         initialValue: raw.initialValue,
         parcels: relationArray,
       },

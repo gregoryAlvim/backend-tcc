@@ -6,6 +6,7 @@ export class ParcelViewModel {
       id: parcel.id,
       value: parcel.value,
       month: parcel.month,
+      isPaid: parcel.isPaid,
       portion: parcel.portion,
       createdAt: parcel.createdAt,
     };

@@ -7,6 +7,7 @@ export class PrismaParcelMapper {
       id: parcel.id,
       value: parcel.value,
       month: parcel.month,
+      isPaid: parcel.isPaid,
       portion: parcel.portion,
       createdAt: parcel.createdAt,
     };
@@ -17,6 +18,7 @@ export class PrismaParcelMapper {
       {
         value: raw.value,
         month: raw.month,
+        isPaid: raw.isPaid,
         portion: raw.portion,
         createdAt: raw.createdAt,
       },

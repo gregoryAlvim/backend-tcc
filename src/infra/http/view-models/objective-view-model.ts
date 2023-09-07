@@ -8,6 +8,7 @@ export class ObjectiveViewModel {
       goal: objective.goal,
       date: objective.date,
       createdAt: objective.createdAt,
+      isActivated: objective.isActivated,
       description: objective.description,
       initialValue: objective.initialValue,
       parcels: objective.parcels.map((parcel) =>
