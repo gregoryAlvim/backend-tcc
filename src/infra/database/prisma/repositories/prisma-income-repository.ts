@@ -56,6 +56,9 @@ export class PrismaIncomeRepository implements IncomeRepository {
         },
       },
       include: { category: true },
+      orderBy: {
+        date: 'desc',
+      },
     });
 
     const adjustedIncomes = incomes.map((income) =>

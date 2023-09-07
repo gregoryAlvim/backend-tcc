@@ -56,6 +56,9 @@ export class PrismaExpenseRepository implements ExpenseRepository {
         },
       },
       include: { category: true },
+      orderBy: {
+        date: 'desc',
+      },
     });
 
     const adjustedExpenses = expenses.map((expense) =>
