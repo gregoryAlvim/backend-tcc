@@ -16,6 +16,8 @@ import { PlanningByCategoryRepository } from '@application/repositories/planning
 import { PrismaPlanningByCategoryRepository } from './repositories/prisma-planning-by-category-repository';
 import { ObjectiveRepository } from '@application/repositories/objective-repository';
 import { PrismaObjectiveRepository } from './repositories/prisma-objective-repository';
+import { ParcelRepository } from '@application/repositories/parcel-repository';
+import { PrismaParcelRepository } from './repositories/prisma-parcel-repository';
 
 @Module({
   providers: [
@@ -52,6 +54,10 @@ import { PrismaObjectiveRepository } from './repositories/prisma-objective-repos
       provide: ObjectiveRepository,
       useClass: PrismaObjectiveRepository,
     },
+    {
+      provide: ParcelRepository,
+      useClass: PrismaParcelRepository,
+    },
   ],
   exports: [
     UserRepository,
@@ -62,6 +68,7 @@ import { PrismaObjectiveRepository } from './repositories/prisma-objective-repos
     PlanningRepository,
     PlanningByCategoryRepository,
     ObjectiveRepository,
+    ParcelRepository,
   ],
 })
 export class DatabaseModule {}
