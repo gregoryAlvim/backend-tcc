@@ -1,6 +1,6 @@
 import { HttpException, Injectable } from '@nestjs/common';
 import { Income } from '@application/entities/income.entity';
-import { startOfMonth, endOfMonth, parse } from 'date-fns';
+import { startOfMonth, endOfMonth, parse, getMonth, getYear } from 'date-fns';
 import { IncomeRepository } from '@application/repositories/ income-repository';
 
 interface GetIncomesOfMonthRequest {
@@ -22,6 +22,16 @@ export class GetIncomesOfMonth {
     month,
     year,
   }: GetIncomesOfMonthRequest): Promise<GetIncomesOfMonthResponse> {
+    if (!month && !year) {
+      const currentDate = new Date();
+
+      const currentYear = getYear(currentDate);
+      const currentMonth = getMonth(currentDate) + 1;
+
+      month = currentMonth.toString();
+      year = currentYear.toString();
+    }
+
     const initialDate = startOfMonth(
       parse(`${year}-${month}`, 'yyyy-MM', new Date()),
     );

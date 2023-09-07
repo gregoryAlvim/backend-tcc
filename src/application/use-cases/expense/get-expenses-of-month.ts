@@ -1,5 +1,5 @@
 import { HttpException, Injectable } from '@nestjs/common';
-import { startOfMonth, endOfMonth, parse } from 'date-fns';
+import { startOfMonth, endOfMonth, parse, getMonth, getYear } from 'date-fns';
 import { ExpenseRepository } from '@application/repositories/expense-repository';
 import { Expense } from '@application/entities/expense.entity';
 
@@ -22,6 +22,16 @@ export class GetExpensesOfMonth {
     month,
     year,
   }: GetExpensesOfMonthRequest): Promise<GetExpensesOfMonthResponse> {
+    if (!month && !year) {
+      const currentDate = new Date();
+
+      const currentYear = getYear(currentDate);
+      const currentMonth = getMonth(currentDate) + 1;
+
+      month = currentMonth.toString();
+      year = currentYear.toString();
+    }
+
     const initialDate = startOfMonth(
       parse(`${year}-${month}`, 'yyyy-MM', new Date()),
     );
